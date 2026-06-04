@@ -11,4 +11,4 @@ Integrantes do Grupo
 * Manuella de Souza Filgueiras - RA: 2404788
 
 
-Limk do Render: https://sistema-chamados-c3qg.onrender.com
+Link do Render: https://sistema-chamados-c3qg.onrender.com
