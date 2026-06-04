@@ -35,16 +35,16 @@ def login():
     user, status = models.verificar_login(username, password)
     
     if status == "sucesso":
-        session['user_id'] = user['id']
+        session ['user_id'] = user['id']
         session['username'] = user['username']
         session['role'] = user['role']
         return redirect(url_for('dashboard'))
     elif status == "bloqueado" or status == "bloqueado_agora":
-        flash("Errou a senha 3 vezes? Parabéns, você conseguiu bloquear a conta! Vá tomar um café e implore para a TI te desbloquear agora... 🔒☕", "danger")
+        flash("Errou a senha 3 vezes? Parabéns, você conseguiu bloquear a conta! Vá tomar um café e implore para a TI te desbloquear agora...", "danger")
     else:
-        flash("Errou o usuário ou a senha. Será que o Caps Lock está ligado ou você só esqueceu como digita mesmo? 🤔", "danger")
+        flash("Errou o usuário ou a senha. Será que o Caps Lock está ligado ou você só esqueceu como digita mesmo?", "danger")
         
-    return redirect(url_for('index'))
+    return redirect (url_for('index'))
 
 @app.route('/cadastro', methods=['POST'])
 def cadastro():
@@ -56,14 +56,14 @@ def cadastro():
         return redirect(url_for('index'))
         
     if not validar_senha_forte(password):
-        flash("Que senha horrorosa! O grupo rival vai adivinhar isso em dois segundos. Coloque pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial! Se vira. 🛡️🤡", "danger")
+        flash("Que senha horrorosa! Coloque pelo menos 8 caracteres, uma maiúscula, uma minúscula, um número e um caractere especial! Se vira.", "danger")
         return redirect(url_for('index'))
         
     try:
         models.cadastrar_usuario(username, password)
         flash("Milagre! Cadastro realizado. Agora tente acertar as credenciais para logar.", "success")
     except sqlite3.IntegrityError:
-        flash("Esse usuário já existe. Seja um pouco mais criativo e tente outro nome! 🙄", "warning")
+        flash("Esse usuário já existe. Seja um pouco mais criativo e tente outro nome!", "warning")
         
     return redirect(url_for('index'))
 
@@ -95,7 +95,7 @@ def detalhe(id_chamado=None):
             
         models.query_db('INSERT INTO chamados (titulo, descricao, usuario_id) VALUES (?, ?, ?)', 
                         [titulo, descricao, session['user_id']], commit=True)
-        flash("Chamado enviado. Sente-se e espere (bastante), porque a TI está ocupada jogando ludo. 🛠️⏳", "success")
+        flash("Chamado enviado. Sente-se e espere (bastante), porque a TI está ocupada jogando ludo.", "success")
         return redirect(url_for('dashboard'))
         
     if id_chamado:

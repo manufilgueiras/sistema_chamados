@@ -7,76 +7,80 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="bg-light">
-    <nav class="navbar navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-dark bg-dark mb-4 shadow-sm">
         <div class="container">
-            <span class="navbar-brand mb-0 h1">Olá, {{ session['username'] }} ({% if session['role'] == 'admin' %}TI{% else %}Usuário{% endif %})</span>
-            <a href="/logout" class="btn btn-outline-danger btn-sm">Sair</a>
+            <span class="navbar-brand mb-0 h1 fw-semibold">Olá, {{ session['username'] }} ({% if session['role'] == 'admin' %}TI{% else %}Usuário{% endif %})</span>
+            <a href="/logout" class="btn btn-outline-danger btn-sm px-3">Sair</a>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container py-2">
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
-              <div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div>
+              <div class="alert alert-{{ category }} text-center shadow-sm" role="alert">{{ message }}</div>
             {% endfor %}
           {% endif %}
         {% endwith %}
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>📋 Lista de Chamados</h2>
+            <h2 class="fw-bold mb-0">Lista de Chamados</h2>
             {% if session['role'] != 'admin' %}
-                <a href="/detalhe" class="btn btn-primary">➕ Novo Chamado</a>
+                <a href="/detalhe" class="btn btn-primary shadow-sm">➕ Novo Chamado</a>
             {% endif %}
         </div>
 
-        <div class="card p-3 shadow-sm">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        {% if session['role'] == 'admin' %}<th>Usuário</th>{% endif %}
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for c in chamados %}
-                    <tr>
-                        <td>#{{ c['id'] }}</td>
-                        <td><strong>{{ c['titulo'] }}</strong></td>
-                        {% if session['role'] == 'admin' %}<td>{{ c['username'] }}</td>{% endif %}
-                        <td>
-                            {% if 'Atendido' in c['status'] %}
-                                <span class="badge bg-success">{{ c['status'] }}</span>
-                            {% else %}
-                                <span class="badge bg-warning text-dark">{{ c['status'] }}</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="/detalhe/{{ c['id'] }}" class="btn btn-sm btn-outline-secondary">Ver</a>
-                                
-                                {% if session['role'] == 'admin' and 'Atendido' not in c['status'] %}
-                                    <a href="/chamado/atender/{{ c['id'] }}" class="btn btn-sm btn-outline-success">Atender</a>
+        <div class="card p-0 shadow-sm border-0 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3">ID</th>
+                            <th class="py-3">Título</th>
+                            {% if session['role'] == 'admin' %}<th class="py-3">Usuário</th>{% endif %}
+                            <th class="py-3">Status</th>
+                            <th class="text-end pe-4 py-3">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in chamados %}
+                        <tr>
+                            <td class="ps-4 text-secondary fw-medium">#{{ c['id'] }}</td>
+                            <td><span class="fw-semibold text-dark">{{ c['titulo'] }}</span></td>
+                            {% if session['role'] == 'admin' %}<td><span class="text-secondary">{{ c['username'] }}</span></td>{% endif %}
+                            <td>
+                                {% if 'Atendido' in c['status'] %}
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle">{{ c['status'] }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">{{ c['status'] }}</span>
                                 {% endif %}
-                                
-                                <a href="/chamado/excluir/{{ c['id'] }}" 
-                                   class="btn btn-sm btn-outline-danger" 
-                                   onclick="return confirm('Você tem certeza absoluta que quer apagar o chamado #' + '{{ c['id'] }}' + '? Não vai se arrepender depois e abrir outro reclamando, hein! ⚠️🤡');">
-                                   Excluir
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="5" class="text-center text-muted py-4">Nenhum chamado pendente.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group gap-1" role="group">
+                                    <a href="/detalhe/{{ c['id'] }}" class="btn btn-sm btn-outline-secondary px-3">Ver</a>
+                                    
+                                    {% if session['role'] == 'admin' and 'Atendido' not in c['status'] %}
+                                        <a href="/chamado/atender/{{ c['id'] }}" class="btn btn-sm btn-success px-3">Atender</a>
+                                    {% endif %}
+                                    
+                                    <a href="/chamado/excluir/{{ c['id'] }}" 
+                                        class="btn btn-sm btn-outline-danger px-3" 
+                                        onclick="return confirm('Você tem certeza absoluta que quer apagar o chamado #' + '{{c['id']}}' + '? Não vai se arrepender depois e abrir outro reclamando, hein!');">
+                                        Excluir
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-5">
+                                <p class="mb-0 fs-5">Nenhum chamado pendente encontrado.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

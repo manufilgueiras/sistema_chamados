@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-primary: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --brand-primary: #2563eb;
+    --brand-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary) !important;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgb(37 99 235 / 0.15);
+}
+
+.btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--brand-hover);
+    border-color: var(--brand-hover);
+}
+
+.nav-pills {
+    background-color: #f1f5f9;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.nav-pills .nav-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #ffffff !important;
+    color: var(--brand-primary) !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.navbar {
+    background-color: #0f172a !important;
+    border-bottom: 1px solid #1e293b;
+    padding: 16px 0;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.alert {
+    border-radius: 12px;
+    border: none;
+    font-weight: 500;
+}

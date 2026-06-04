@@ -7,61 +7,65 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="bg-light">
-    <div class="container mt-5">
+    <div class="container mt-5 py-3">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 
                 {% with messages = get_flashed_messages(with_categories=true) %}
                   {% if messages %}
                     {% for category, message in messages %}
-                      <div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div>
+                      <div class="alert alert-{{ category }} text-center shadow-sm" role="alert">{{ message }}</div>
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
 
-                <div class="card shadow-sm p-4">
+                <div class="card shadow-sm p-4 border-0">
                     
                     {% if not chamado %}
-                        <h3>🛠️ Abrir Novo Chamado de Suporte</h3>
-                        <p class="text-muted">Descreva o problema técnico para que a equipe de TI possa te ajudar.</p>
-                        <hr>
+                        <h3 class="fw-bold mb-1">Abrir Novo Chamado de Suporte</h3>
+                        <p class="text-muted small mb-4">Descreva detalhadamente o incidente técnico enfrentado.</p>
+                        <hr class="text-muted opacity-25 mb-4">
                         <form action="/detalhe" method="POST">
                             <div class="mb-3">
-                                <label class="form-label">Título do Problema</label>
+                                <label class="form-label small fw-semibold text-secondary">Título do Problema</label>
                                 <input type="text" name="titulo" class="form-control" placeholder="Ex: Projetor do Bloco B não liga" required>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Descrição Completa</label>
+                            <div class="mb-4">
+                                <label class="form-label small fw-semibold text-secondary">Descrição Completa</label>
                                 <textarea name="descricao" class="form-control" rows="5" placeholder="Forneça detalhes como número da sala, horários e mensagens de erro..." required></textarea>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <a href="/dashboard" class="btn btn-secondary">Voltar ao Painel</a>
-                                <button type="submit" class="btn btn-success">Enviar Chamado</button>
+                            <div class="d-flex justify-content-between pt-2">
+                                <a href="/dashboard" class="btn btn-light px-4">Voltar ao Painel</a>
+                                <button type="submit" class="btn btn-primary px-4 shadow-sm">Enviar Chamado</button>
                             </div>
                         </form>
                     
                     {% else %}
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3>🔍 Detalhes do Chamado #{{ chamado['id'] }}</h3>
-                            <span class="badge bg-warning text-dark fs-6">{{ chamado['status'] }}</span>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h3 class="fw-bold mb-0">Detalhes do Chamado #{{ chamado['id'] }}</h3>
+                            {% if 'Atendido' in chamado['status'] %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle fs-6">{{ chamado['status'] }}</span>
+                            {% else %}
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle fs-6">{{ chamado['status'] }}</span>
+                            {% endif %}
                         </div>
-                        <hr>
+                        <hr class="text-muted opacity-25 mb-4">
                         <div class="mb-3">
-                            <h5><strong>Título:</strong></h5>
-                            <p class="fs-5 text-secondary">{{ chamado['titulo'] }}</p>
+                            <label class="small fw-semibold text-secondary d-block mb-1">Título</label>
+                            <p class="fs-5 fw-semibold text-dark mb-0">{{ chamado['titulo'] }}</p>
                         </div>
-                        <div class="mb-3">
-                            <h5><strong>Descrição do Problema:</strong></h5>
-                            <div class="p-3 bg-white border rounded">
+                        <div class="mb-4">
+                            <label class="small fw-semibold text-secondary d-block mb-2">Descrição do Problema</label>
+                            <div class="p-3 bg-light border border-light-subtle rounded-3 text-secondary" style="white-space: pre-line; line-height: 1.6;">
                                 {{ chamado['descricao'] }}
                             </div>
                         </div>
-                        <hr>
+                        <hr class="text-muted opacity-25 mb-4">
                         <div class="d-flex justify-content-between">
-                            <a href="/dashboard" class="btn btn-secondary">Voltar ao Painel</a>
+                            <a href="/dashboard" class="btn btn-light px-4">Voltar ao Painel</a>
                             
                             {% if session['role'] == 'admin' %}
-                                <button class="btn btn-success" onclick="alert('Chamado concluído com sucesso!')">Concluir Chamado</button>
+                                <button class="btn btn-success px-4" onclick="alert('Chamado concluído com sucesso!')">Concluir Chamado</button>
                             {% endif %}
                         </div>
                     {% endif %}
